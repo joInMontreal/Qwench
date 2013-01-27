@@ -62,6 +62,23 @@ function post() {
         }
     }
 
+    if(FAVORITE_EMAIL_NOTIFICATION){
+        $sql = ("
+        select u.id, u.email
+        from favorites f
+        join users u on u.id = f.userid
+        where f.questionid = ".$questionid.";
+        ");
+        $query = mysql_query($sql);
+        while ($row = mysql_fetch_array($query)) {
+            if($row['id'] != $_SESSION['userid']){
+                $url = 'http://'.$_SERVER['HTTP_HOST'].$basePath.'/questions/view/'.$questionid.'/'.$result['slug'];
+                sendNotification('An answer on one of your favorite question !',$url,$row['email'],$description);
+            }
+
+        }
+    }
+
 	header("Location: $basePath/questions/view/$questionid/{$result['slug']}");
 }
 

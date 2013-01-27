@@ -33,6 +33,7 @@ define('BASE_PATH',BASE_DIR.'/index.php');
 
 //Email notification
 define('QUESTION_EMAIL_NOTIFICATION',true); //put true to enable
+define('FAVORITE_EMAIL_NOTIFICATION',true); //put true to enable
 define('ACCEPTED_ANSWER_EMAIL_NOTIFICATION',true); //put true to enable
 define('ANSWER_EMAIL_NOTIFICATION',true); //put true to enable
 define('COMMENT_EMAIL_NOTIFICATION',true); //put true to enable
