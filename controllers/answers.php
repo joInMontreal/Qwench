@@ -50,6 +50,18 @@ function post() {
 	$sql = ("update questions set updated = NOW(), answers=answers+1 where id = '".escape($result['id'])."'");
 	$query = mysql_query($sql);
 
+    if(ANSWER_EMAIL_NOTIFICATION){
+        $sql = ("select id, email from users where id = ".$result['userid'].";");
+        $query = mysql_query($sql);
+        while ($row = mysql_fetch_array($query)) {
+            if($row['id'] != $_SESSION['userid']){
+                $url = 'http://'.$_SERVER['HTTP_HOST'].$basePath.'/questions/view/'.$questionid.'/'.$result['slug'];
+                sendNotification('An answer on your question !',$url,$row['email'],$description);
+            }
+
+        }
+    }
+
 	header("Location: $basePath/questions/view/$questionid/{$result['slug']}");
 }
 
@@ -162,7 +174,7 @@ function vote() {
 
 function accept() {
 	authenticate(1);
-
+    $basePath = basePath();
 	$answerid = sanitize($_GET['id'],"int");
 
 	$sql = ("select questionid,userid from answers where id = '".escape($answerid)."'");
@@ -194,9 +206,21 @@ function accept() {
 		
 		score('a_accepted',$answerid,$answer['userid']);
 
+        if(ACCEPTED_ANSWER_EMAIL_NOTIFICATION){
+            $sql = ("select id, email from users;");
+            $query = mysql_query($sql);
+            while ($row = mysql_fetch_array($query)) {
+                if($row['id'] != $_SESSION['userid']){
+                    $url = 'http://'.$_SERVER['HTTP_HOST'].basepath().'/questions/view/'.$result['id'].'/'.$result['slug'];
+                    sendNotification('An answer is accepted !',$url,$row['email'],$result['title']);
+                }
+
+            }
+        }
+
 	}
 
-	$basePath = basePath();
+
 
 	header("Location: $basePath/questions/view/{$result['id']}/{$result['slug']}");
 }

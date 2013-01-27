@@ -11,8 +11,8 @@ define('ROOT',DIRNAME(__FILE__));
 define('DS',DIRECTORY_SEPARATOR);
 
 /* Get Basic Details */
-
-$path = explode("/", substr($_SERVER['PATH_INFO'],1));
+$path_info = (isset($_SERVER['PATH_INFO'])?$_SERVER['PATH_INFO']:"");
+$path = explode("/", substr($path_info,1));
 
 $controller = 'questions';
 $action = 'index';
@@ -44,7 +44,6 @@ error_reporting(E_ALL);
 ini_set('display_errors','On');
 
 /* Basic Bootstrapping */
-
 include ROOT.DS.'controllers'.DS.$controller.'.php';
 if (function_exists($action)) {
 	call_user_func($action);

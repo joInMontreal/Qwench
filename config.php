@@ -4,14 +4,14 @@
 define('SERVERNAME','localhost');
 define('SERVERPORT','3306');
 define('DBUSERNAME','root');
-define('DBPASSWORD','yourpassword');
+define('DBPASSWORD','');
 define('DBNAME','qwench');
 
 Define('ANSWERS_PER_PAGE','10');
 define('QUESTIONS_PER_PAGE','10');
 
 // If you want only logged in users to view the site
-define('ALLOW_VISITORS','1');
+define('ALLOW_VISITORS','0');
 
 // Do not change salt after users have registered
 define('SALT','yoursecurestringoverhere');
@@ -24,9 +24,16 @@ date_default_timezone_set("Asia/Calcutta");
 // If you have installed Qwench in your 
 // root folder then set
 // define('BASE_DIR','');
-define('BASE_DIR','/qwench');
+define('BASE_DIR','');
 
 // If URL-Rewriting does not work then set
-// define('BASE_PATH',BASE_DIR.'/index.php');
+define('BASE_PATH',BASE_DIR.'/index.php');
 // If URL-Rewriting works, then leave the line below as is
-define('BASE_PATH',BASE_DIR);
+// define('BASE_PATH',BASE_DIR);
+
+//Email notification
+define('QUESTION_EMAIL_NOTIFICATION',true); //put true to enable
+define('ACCEPTED_ANSWER_EMAIL_NOTIFICATION',true); //put true to enable
+define('ANSWER_EMAIL_NOTIFICATION',true); //put true to enable
+define('COMMENT_EMAIL_NOTIFICATION',true); //put true to enable
+define('EMAIL_SENDER','j.muschalle@gmail.com'); //email who send notification

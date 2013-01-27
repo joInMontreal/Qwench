@@ -40,6 +40,31 @@ function post() {
 	$template->set('username',$firstname);
 	$template->set('userid',$_SESSION['userid']);
 
+    if(COMMENT_EMAIL_NOTIFICATION){
+        if($type == 0){
+            $sql = ("
+            select q.userid, u.email, q.id, q.slug
+            from questions q
+            join users u on u.id = q.userid
+            where q.id = ".$typeid.";");
+        }else{
+            $sql = ("
+            select a.userid, u.email, q.id, q.slug
+            from answers a
+            join users u on u.id = q.userid
+            join questions q on q.id = a.questionid
+            where a.id = ".$typeid.";");
+        }
+        $query = mysql_query($sql);
+        while ($row = mysql_fetch_array($query)) {
+            if($row['userid'] != $_SESSION['userid']){
+                $url = 'http://'.$_SERVER['HTTP_HOST'].basepath().'/questions/view/'.$row['id'].'/'.$row['slug'];
+                sendNotification('A new comment on your question !',$url,$row['email'],$comment);
+            }
+
+        }
+    }
+
 }
 
 function vote() {

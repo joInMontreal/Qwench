@@ -130,6 +130,8 @@ function post() {
 
 	$questionid = mysql_insert_id();
 
+
+
 	if (!empty($_POST['tags'])) {
 		foreach ($_POST['tags'] as $tag) {
 			$tag = createSlug($tag);
@@ -162,7 +164,17 @@ function post() {
 	if ($kb == 1) {
 		score('kb_posted',$questionid);	
 	}
-	
+    if(QUESTION_EMAIL_NOTIFICATION){
+        $sql = ("select id, email from users;");
+        $query = mysql_query($sql);
+        while ($row = mysql_fetch_array($query)) {
+            if($row['id'] != $_SESSION['userid']){
+                $url = 'http://'.$_SERVER['HTTP_HOST'].$basePath.'/questions/view/'.$questionid.'/'.$slug;
+                sendNotification('New question on Qwench !',$url,$row['email'],$title);
+            }
+
+        }
+    }
 	header("Location: $basePath/questions/view/$questionid/$slug");
 }
 
@@ -467,14 +479,14 @@ function view() {
 EOD;
 		
 	}
-
+    $basePath = basePath();
 	$js .= <<<EOD
 
 
 
 <script>
 
-	var basePath = "/qwench/index.php";
+	var basePath = "$basePath";
 
 
 	function vote(elem,type,voted) {
