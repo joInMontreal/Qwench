@@ -114,6 +114,7 @@ CREATE TABLE `questions` (
   FULLTEXT KEY `title` (`title`,`description`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 SET character_set_client = @saved_cs_client;
+ALTER TABLE questions ADD FULLTEXT(title, description);
 
 
 DROP TABLE IF EXISTS `questions_votes`;

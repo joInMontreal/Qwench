@@ -892,8 +892,8 @@ function index() {
 	
 	if (!empty($searchstringoriginal)) {
 		$search = "&search=".urlencode($searchstring);
-		$conditionspost .= " MATCH(title, description) AGAINST ('".escape($searchstring)."') and ";
-		$conditionsselect .= ",MATCH(title, description) AGAINST ('".escape($searchstring)."') AS score  ";
+		$conditionspost .= " MATCH(title, description) AGAINST ('".escape($searchstring)."' IN BOOLEAN MODE) and ";
+		$conditionsselect .= ",MATCH(title, description) AGAINST ('".escape($searchstring)."' IN BOOLEAN MODE) AS score  ";
 		$extratitle = " showing ".$searchstring;
 		if ($defaultorder == 1) {
 			$orderby = 'relevance';
