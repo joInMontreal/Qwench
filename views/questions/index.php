@@ -35,6 +35,9 @@
 </div>
 <?php endif;?>
 
+<?php if ($question['accepted']):?>
+    <div class="questionsview_accepted">Accepted Answer</div>
+<?php endif;?>
  
 
 <div class="questionsview_answer" id="a<?php echo $question['id'];?>">
